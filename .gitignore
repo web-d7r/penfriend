@@ -1,0 +1,12 @@
+# Cache files
+__pycache__/*
+*.pyc
+
+# Virtual environment and database
+venv
+.env
+db.sqlite3
+
+# PyCharm Project
+.idea
+

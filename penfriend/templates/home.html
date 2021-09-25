@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for usr in users %}
+<div class="card" style="border-color: #ebbb8a;">
+
+  <div class="card-body">
+    <h5 class="card-title">{{ usr.username }}
+    {% if usr.profile.gender or usr.profile.birth_date %}
+        [
+        {% if usr.profile.gender %}  {{ usr.profile.gender }} {% endif %}
+        {% if usr.profile.birth_date %} {{ usr.profile.count_age }} years old {% endif %}
+        ]
+    {% endif %}
+    </h5>
+    <p class="card-text">{{ usr.profile.about_me }}</p>
+  </div>
+
+  <ul class="list-group list-group-flush">
+      <li class="list-group-item">Country/Region/City:
+          {% if usr.profile.country %}
+              {{ usr.profile.country }}/
+              {{ usr.profile.region  }}/
+              {{ usr.profile.city }}
+            {% endif %}
+      </li>
+      <li class="list-group-item">Email: {{ usr.email }}</li>
+  </ul>
+
+</div>
+<br>
+    {% endfor %}
+{% endblock %}
+
+{% block pagination %}
+ {% if is_paginated %}
+    <div class="paginator">
+    <span class="page-links">
+
+        {% if page_obj.has_previous %}
+            <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="page-current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+
+    </span>
+    </div>
+     <br>
+    {% endif %}
+{% endblock %}
