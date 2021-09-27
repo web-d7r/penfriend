@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login
 from .forms import RegistrationForm, ProfileForm
 from .models import Profile
 import datetime
+import requests
 
 
 # Create your views here.
@@ -38,7 +39,7 @@ class UserCreateView(CreateView):
         return view
 
     def get_success_url(self, **kwargs):
-        return reverse('profile', kwargs={'pk': self.object.pk},)
+        return reverse('profile', kwargs={'pk': self.object.pk}, )
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
@@ -52,7 +53,15 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_initial(self):
         initial = super(ProfileUpdateView, self).get_initial()
-        return initial
+        if self.request.user.profile.country:  # if record exists in country field
+            return initial
+        else:
+            ip = self.request.META.get('REMOTE_ADDR')
+            response = requests.get(f'https://ip-api.com/json/{ip}?fields=country,region,city').json()
+            initial['country'] = response['country']
+            initial['region'] = response['region']
+            initial['city'] = response['city']
+            return initial
 
     def get_success_url(self):
         return reverse('index')
