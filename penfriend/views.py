@@ -56,8 +56,16 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         if self.request.user.profile.country:  # if record exists in country field
             return initial
         else:
-            ip = self.request.META.get('REMOTE_ADDR')
-            response = requests.get(f'https://ip-api.com/json/{ip}?fields=country,region,city').json()
+            x_forwarded_for = self.request.META.get('HTTP_X_FORWARDED_FOR')
+            if x_forwarded_for:
+                ip = x_forwarded_for.split(',')[0]
+            else:
+                ip = self.request.META.get('REMOTE_ADDR')
+
+        response = requests.get(f'https://ip-api.com/json/{ip}?fields=country,region,city').json()
+        if len(response) < 3:
+            return initial
+        else:
             initial['country'] = response['country']
             initial['region'] = response['region']
             initial['city'] = response['city']
