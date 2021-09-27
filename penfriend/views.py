@@ -11,6 +11,7 @@ from .forms import RegistrationForm, ProfileForm
 from .models import Profile
 import datetime
 import requests
+from ipware import get_client_ip
 
 
 # Create your views here.
@@ -56,20 +57,18 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         if self.request.user.profile.country:  # if record exists in country field
             return initial
         else:
-            x_forwarded_for = self.request.META.get('HTTP_X_FORWARDED_FOR')
-            if x_forwarded_for:
-                ip = x_forwarded_for.split(',')[-1]
+            client_ip, is_routable = get_client_ip(self.request)
+            if client_ip is None:
+                return initial
             else:
-                ip = self.request.META.get('REMOTE_ADDR')
-
-        response = requests.get(f'https://ip-api.com/json/{ip}?fields=country,region,city').json()
-        if len(response) < 3:
-            return initial
-        else:
-            initial['country'] = response['country']
-            initial['region'] = response['region']
-            initial['city'] = response['city']
-            return initial
+                response = requests.get(f'https://ip-api.com/json/{client_ip}?fields=country,region,city').json()
+                if len(response) < 3:
+                    return initial
+                else:
+                    initial['country'] = response['country']
+                    initial['region'] = response['region']
+                    initial['city'] = response['city']
+                    return initial
 
     def get_success_url(self):
         return reverse('index')
