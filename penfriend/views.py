@@ -58,7 +58,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         else:
             x_forwarded_for = self.request.META.get('HTTP_X_FORWARDED_FOR')
             if x_forwarded_for:
-                ip = x_forwarded_for.split(',')[0]
+                ip = x_forwarded_for.split(',')[-1]
             else:
                 ip = self.request.META.get('REMOTE_ADDR')
 
