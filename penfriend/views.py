@@ -10,8 +10,6 @@ from django.contrib.auth import authenticate, login
 from .forms import RegistrationForm, ProfileForm
 from .models import Profile
 import datetime
-import requests
-from ipware import get_client_ip
 
 
 # Create your views here.
