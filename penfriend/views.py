@@ -54,21 +54,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_initial(self):
         initial = super(ProfileUpdateView, self).get_initial()
-        if self.request.user.profile.country:  # if record exists in country field
-            return initial
-        else:
-            client_ip, is_routable = get_client_ip(self.request)
-            if client_ip is None:
-                return initial
-            else:
-                response = requests.get(f'https://ip-api.com/json/{client_ip}?fields=country,region,city').json()
-                if len(response) < 3:
-                    return initial
-                else:
-                    initial['country'] = response['country']
-                    initial['region'] = response['region']
-                    initial['city'] = response['city']
-                    return initial
+        return initial
 
     def get_success_url(self):
         return reverse('index')

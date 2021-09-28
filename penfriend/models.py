@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.urls import reverse
+from django_countries.fields import CountryField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import date
@@ -13,8 +13,7 @@ class Profile(models.Model):
         ('F', 'Female')
     )
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
-    country = models.CharField(max_length=30)
-    region = models.CharField(max_length=30)
+    country = CountryField()
     city = models.CharField(max_length=30)
     gender = models.CharField(max_length=1, choices=GENDER)
     birth_date = models.DateField(null=True, blank=True)

@@ -6,7 +6,7 @@
 <div class="card" style="border-color: #ebbb8a;">
 
   <div class="card-body">
-    <h5 class="card-title">{{ usr.username }}
+      <h5 class="card-title">{{ usr.username }}
     {% if usr.profile.gender or usr.profile.birth_date %}
         [
         {% if usr.profile.gender %}  {{ usr.profile.gender }} {% endif %}
@@ -18,10 +18,9 @@
   </div>
 
   <ul class="list-group list-group-flush">
-      <li class="list-group-item">Country/Region/City:
+      <li class="list-group-item">Country/City:
           {% if usr.profile.country %}
-              {{ usr.profile.country }}
-              {{ usr.profile.region  }}
+              {{ usr.profile.country.name }},
               {{ usr.profile.city }}
             {% endif %}
       </li>
