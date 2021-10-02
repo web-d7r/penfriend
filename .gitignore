@@ -2,6 +2,8 @@
 __pycache__/*
 *.pyc
 
+staticfiles/
+
 # Virtual environment and database
 venv
 .env
