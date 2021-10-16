@@ -8,6 +8,7 @@ from .views import IndexView, UserCreateView, Login
 
 # Create your tests here.
 
+
 # Testing 'Profile' Model
 class ProfileModelTest(TestCase):
     @classmethod
@@ -34,6 +35,7 @@ class ProfileModelTest(TestCase):
         max_length = profile._meta.get_field('city').max_length
         self.assertEqual(max_length, 30)
 
+
 # Testing ProfileForm
 class ProfileFormTest(TestCase):
     def test_empty_form(self):
@@ -44,6 +46,7 @@ class ProfileFormTest(TestCase):
         self.assertIn('country', form.fields)
         self.assertIn('city', form.fields)
 
+
 # Testing RegistrationForm
 class RegistrationFormTest(TestCase):
     def test_empty_form(self):
@@ -52,6 +55,7 @@ class RegistrationFormTest(TestCase):
         self.assertIn('email', form.fields)
         self.assertIn('password1', form.fields)
         self.assertIn('password2', form.fields)
+
 
 class TestPages(TestCase):
     def setUp(self):
@@ -75,10 +79,3 @@ class TestPages(TestCase):
         request.user = AnonymousUser()
         response = Login.as_view()(request)
         self.assertEqual(response.status_code, 200)
-
-
-
-
-
-
-

@@ -21,8 +21,8 @@ class IndexView(ListView):
 
     def get_queryset(self):
         today = datetime.date.today() + datetime.timedelta(days=1)
-        last_week = datetime.date.today() - datetime.timedelta(days=7)
-        return User.objects.filter(last_login__range=(last_week, today)).order_by('-last_login')
+        last_year = datetime.date.today() - datetime.timedelta(days=365)
+        return User.objects.filter(last_login__range=(last_year, today)).order_by('-last_login')
 
 
 class UserCreateView(CreateView):
