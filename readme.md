@@ -5,6 +5,7 @@ To do this, follow steps bellow:
 * Clone repository(`git clone 'https://github.com/web-d7r/penfriend'`)
 * Go inside it(`cd penfriend`)
 * create virtual environment (`python3 -m venv venv`)
+* activate virtual environment(`source ./venv/bin/activate`)
 * install dependencies (`python3 -m pip install -r 'requirements.txt`' )
 * make all migrations (`python3 manage.py makemigrations`)
 * migrate (`python3 manage.py migrate`)
